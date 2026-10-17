@@ -18,23 +18,23 @@ LLM Wiki                  #llmWiki
                           stubs, drafts, orphans, recent changes, hubs
 ```
 
-## With a shell (Claude Code)
+## The default: ask Claude
+
+Ask Claude to "set up the LLM wiki". It reads the declarations in `setup.py` and creates the notes through the MCP tools, so it works in Claude Code and on claude.ai alike and needs nothing beyond the MCP connection you already signed in to.
+
+## Faster: the script (needs an ETAPI token)
 
 ```
 python3 <skill folder>/setup.py --url https://trilium.example.com --token "$TRILIUM_ETAPI_TOKEN"
 ```
 
-The skill folder is `skills/trilium-llm-wiki/` in a clone of this repository, or the installed plugin's copy; Claude knows where it is. The script talks to Trilium Notes' ETAPI directly, so the machine needs to reach Trilium itself, not only the MCP server. Useful options:
+The skill folder is `skills/trilium-llm-wiki/` in a clone of this repository, or the installed plugin's copy; Claude knows where it is. The script talks to Trilium Notes' ETAPI directly, so it needs an ETAPI token (*Options → ETAPI*; the MCP connection's OAuth sign-in does not cover it) and a machine that can reach Trilium itself, not only the MCP server. It gives the same result in fewer round trips. Useful options:
 
 | Option | What it does |
 |---|---|
 | `--dry-run` | prints what would be created, writes nothing |
 | `--parent <noteId>` | creates *LLM Wiki* under that note instead of the root |
 | `--update-schema` | replaces the schema note's content with `schema.html`; see [Customise your schema](customise.md) before using it |
-
-## Without a shell (claude.ai)
-
-Ask Claude to set up the wiki. It reads the declarations in `setup.py` and creates the same notes through the MCP tools. This takes more tool calls but gives the same result.
 
 ## First ingest
 
