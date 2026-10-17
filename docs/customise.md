@@ -6,7 +6,7 @@ Typical changes:
 
 - Different sections on a page type.
 - A rule about your sources, for example how to treat a bookmarking tool's imports.
-- Where to-dos go: the default keeps them on the page or in a connected to-do app and sends work on code to the repository's issue tracker; yours might name one place for everything.
+- Where to-dos go: by default a connected to-do app, else the page, and work on code to the repository's issue tracker; yours might name one app or one tracker for everything.
 - Stricter or looser linking.
 
 ## Updating to a newer default
