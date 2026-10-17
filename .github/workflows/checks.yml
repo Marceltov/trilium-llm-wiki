@@ -1,7 +1,8 @@
 name: Checks
 
 # The shared rules copies in skills/*/reference/ must match shared/rules.md,
-# and the SessionStart hook's self-test must pass.
+# the SessionStart hook's self-test must pass, and setup.py must build the
+# structure once and then change nothing (tests/test_setup.py).
 
 on:
   push:
@@ -15,3 +16,4 @@ jobs:
       - uses: actions/checkout@v4
       - run: scripts/sync-shared.sh --check
       - run: bash scripts/test-check-trilium-credentials.sh
+      - run: python3 -I tests/test_setup.py

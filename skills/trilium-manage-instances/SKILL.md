@@ -1,6 +1,6 @@
 ---
 name: trilium-manage-instances
-description: Configure connections to one or more Trilium Notes MCP server deployments — add a new instance (URL + ETAPI token, optionally labeled), list which are configured/connected, or remove one. Every instance is registered as a user-scoped MCP server via `claude mcp add` (no settings.json editing, no bundled .mcp.json). Use when the trilium MCP server is unconfigured, disconnected, or missing credentials (including when a SessionStart hook flags this), when the user asks to set up, configure, or connect the Trilium Notes plugin, or when they want to add, remove, or list additional Trilium Notes instances.
+description: Configure connections to one or more Trilium Notes MCP server deployments — add a new instance (URL + ETAPI token, optionally labeled), list which are configured/connected, or remove one. Every instance is registered as a user-scoped MCP server via `claude mcp add` (no settings.json editing, no bundled .mcp.json). Use when the trilium MCP server is unconfigured, disconnected, or missing credentials (including when a SessionStart hook flags this), when the user asks to set up, configure, or connect Trilium Notes (for example for the LLM wiki), or when they want to add, remove, or list additional Trilium Notes instances.
 ---
 
 # Manage Trilium Notes Instances

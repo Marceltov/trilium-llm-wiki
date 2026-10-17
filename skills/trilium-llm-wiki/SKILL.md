@@ -38,7 +38,7 @@ If more than one Trilium Notes instance is connected this session, resolve which
    |---|---|
    | Write lock | claim: `createNote` under *Locks* (`<session>: <task>`); check: `searchNotes("note.parents.labels.llmWikiPart = locks note.utcDateModified >= NOW-1800 orderBy note.utcDateCreated")`, yours must be first; keep alive: `putNoteContentById` on the claim; release: `deleteNoteById` |
    | Pending sources | run the view's query: `getNoteById(view)` → `searchString` label → `searchNotes(query)` |
-   | File a loose source | a note directly under *Sources* → move it into `Sources/<year>` (`#wikiSourceGroup=<year>`, create if missing); see `trilium-move-note` |
+   | File a loose source | a note directly under *Sources* → move it into `Sources/<year>` (`#wikiSourceGroup=<year>`, create if missing): `postBranch` with the year folder as `parentNoteId`, then `deleteBranchById` on the old branch (the note keeps its noteId, links and attributes) |
    | Read a source | `getNoteContent`, `getNoteAttachments` + `getAttachmentContent` |
    | Collect a link-only source | raw fetch (`curl` from a shell; without one, the web-fetch tool and `#fetchedVia=summary`) → `createNote` *Fetched copy* under the link note → `postAttribute` `sourceUrl`, `fetchedOn`, `fetchedVia`, `aiAssisted` |
    | Find existing pages | `searchNotes("#wiki #wikiTopic=<slug>")`, `searchNotes("#wiki <title words>")` |
@@ -46,7 +46,7 @@ If more than one Trilium Notes instance is connected this session, resolve which
    | Write / extend a page | `getNoteContent` → edit the HTML → `putNoteContentById`. Never replace a page you did not read first. |
    | Link pages | inline `<a class="reference-link" href="#root/<noteId>">Title</a>`; typed edges via `postAttribute` relation `relatesTo` |
    | Clone into a second topic | `postBranch` with the other hub as `parentNoteId` |
-   | Log | `getDayNote(today)` → `getNoteContent` → add an `<li>` to the list under `<h2>Wiki</h2>` (create the heading on the first action of the day) → `putNoteContentById` (see `trilium-journal-note` and the schema's *Log format*) |
+   | Log | `getDayNote(today)` → `getNoteContent` → add an `<li>` to the list under `<h2>Wiki</h2>` (create the heading on the first action of the day) → `putNoteContentById`, reading the day note right before writing it (see the schema's *Log format*) |
 
 5. **Respect the boundaries in the schema:** never edit anything under *Sources* (it is
    `#readOnly`; ETAPI would still allow it, so this is on you) beyond adding the *Fetched copy* of a
@@ -82,8 +82,8 @@ web clip or article under *Sources* and say "ingest".
 ## Notes
 
 - `getInboxNote` is Trilium Notes' general inbox (often the day note). Clips the user wants in the
-  wiki should be moved under *Sources/<year>* (`patchBranchById` / `postBranch` + `deleteBranchById`,
-  see `trilium-move-note`), otherwise they inherit neither `#readOnly` nor `#wikiSource` and never show
+  wiki should be moved under *Sources/<year>* (`postBranch` under the
+  year folder, then `deleteBranchById` on the old branch), otherwise they inherit neither `#readOnly` nor `#wikiSource` and never show
   up as pending.
 - Search values with hyphens or spaces must be quoted: `#wikiTopic="machine-learning"`.
 - A `!=` test on an inherited label (`#wikiType != hub`) only works as the **first** clause of

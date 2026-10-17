@@ -1,0 +1,14 @@
+{
+  "name": "trilium-llm-wiki",
+  "description": "Claude Code plugin: an LLM-maintained wiki in Trilium Notes.",
+  "owner": {
+    "name": "Marcel Bruckner (Marceltov)"
+  },
+  "plugins": [
+    {
+      "name": "trilium-llm-wiki",
+      "source": "./",
+      "description": "An LLM wiki in Trilium Notes: ingest sources into linked pages, query, lint, review, with its own MCP connection setup."
+    }
+  ]
+}
