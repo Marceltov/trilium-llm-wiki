@@ -29,12 +29,12 @@ Ask the wiki a question ("what does the wiki say about…"). Claude reads the hu
 
 ## Lint
 
-Say "lint the wiki", roughly weekly. Claude works through the views: pending sources, orphan pages, stubs, the review queue, contradictions between pages, missing colours, work items that belong in an issue tracker, and stale lock claims. It fixes what is mechanical and lists what needs you.
+Say "lint the wiki", roughly weekly. Claude works through the views: pending sources, orphan pages, stubs, the review queue, contradictions between pages, missing colours, open to-dos (work on code moves to an issue tracker), and stale lock claims. It fixes what is mechanical and lists what needs you.
 
 ## Adopt
 
-Say that a finding from a work session belongs in the wiki: a debugging result, a migration, a setup. Claude writes or extends concept and entity pages with the symptoms, cause, fix and the decisions behind them. Anything still to do goes into an issue in the repository that owns it, not into the wiki.
+Say that a finding from a work session belongs in the wiki: a debugging result, a migration, a setup. Claude writes or extends concept and entity pages with the symptoms, cause, fix and the decisions behind them. Work still to do on the code goes into an issue in the repository that owns it; other to-dos stay on the page.
 
-## Knowledge, not tasks
+## To-dos, and work on code
 
-The wiki records what is known. To-dos belong in your issue tracker; a page may only reference an issue next to the fact it concerns. "Open questions" on a page are knowledge gaps that a source or a look at the system would answer.
+Pages may carry to-dos in a *To do* checklist: things to look up, try, buy or decide. Work on code is different: anything to build, fix or change in a repository goes into that repository's issue tracker, and the page links the issue next to the fact it concerns.
