@@ -29,12 +29,17 @@ Ask the wiki a question ("what does the wiki say about…"). Claude reads the hu
 
 ## Lint
 
-Say "lint the wiki", roughly weekly. Claude works through the views: pending sources, orphan pages, stubs, the review queue, contradictions between pages, missing colours, open to-dos (work on code moves to an issue tracker), and stale lock claims. It fixes what is mechanical and lists what needs you.
+Say "lint the wiki", roughly weekly. Claude works through the views: pending sources, orphan pages, stubs, the review queue, contradictions between pages, missing colours, open to-dos (moving them to a to-do app or issue tracker where one is connected), and stale lock claims. It fixes what is mechanical and lists what needs you.
 
 ## Adopt
 
-Say that a finding from a work session belongs in the wiki: a debugging result, a migration, a setup. Claude writes or extends concept and entity pages with the symptoms, cause, fix and the decisions behind them. Work still to do on the code goes into an issue in the repository that owns it; other to-dos stay on the page.
+Say that a finding from a work session belongs in the wiki: a debugging result, a migration, a setup. Claude writes or extends concept and entity pages with the symptoms, cause, fix and the decisions behind them. Work still to do on the code goes into an issue in the repository that owns it; other to-dos go to a connected to-do app or onto the page.
 
 ## To-dos, and work on code
 
-Pages may carry to-dos in a *To do* checklist: things to look up, try, buy or decide. If a to-do app is connected through MCP (for example Todoist), they can go there instead, with the page naming the task. Work on code is different: anything to build, fix or change in a repository goes into that repository's issue tracker, and the page links the issue next to the fact it concerns.
+| Kind | Goes to | Otherwise |
+|---|---|---|
+| To-do (look up, try, buy, decide) | a to-do app connected through MCP, for example Todoist | a *To do* checklist on the page |
+| Work on code (build, fix, change in a repository) | the repository's issue tracker, when Claude can reach it | a *To do* item on the page, marked with the repository |
+
+The page names the task or links the issue next to the fact it concerns. When it isn't clear where something goes (several apps, no clear repository, personal or not), Claude asks you, and writes a standing answer into the schema.

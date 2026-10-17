@@ -28,12 +28,17 @@
 <p>Claims are not logged. The lock is advisory: it works because every session follows this schema.</p>
 
 <h2>To-dos, and work on code</h2>
-<p>The wiki may hold to-dos: things to look up, try, buy, decide or do. Keep them on the page they belong to, as a checklist in a <em>To do</em> section, and tick or remove them when done. When a to-do app is connected through MCP (for example Todoist), a to-do can go there instead, and the page names the task next to the fact it concerns; if this schema doesn't say which you prefer, ask once and write the answer here. "Open questions" are anything the wiki does not know or has not decided yet.</p>
-<p>The exception is <strong>work on code</strong>: anything to build, fix, remove or change in a repository, including a wrong document there. That goes into the repository's <strong>issue tracker</strong> (for example a GitHub issue), not the wiki.</p>
+<p>To-dos (things to look up, try, buy, decide or do) and work on code (anything to build, fix, remove or change in a repository, including a wrong document there) go where they can be tracked best. "Open questions" are anything the wiki does not know or has not decided yet.</p>
+<table>
+  <thead><tr><th>Kind</th><th>Goes to</th><th>Otherwise</th></tr></thead>
+  <tbody>
+    <tr><td>To-do</td><td>A to-do app connected through MCP (for example Todoist). The page names the task next to the fact it concerns.</td><td>A <em>To do</em> checklist on the page it belongs to; tick or remove items when done.</td></tr>
+    <tr><td>Work on code</td><td>The repository's issue tracker, when the assistant can reach it (for example GitHub through <code>gh</code> or an MCP connection). Check for an existing issue first; the page references it, for example "removal tracked in owner/repo#20".</td><td>A <em>To do</em> item on the page, marked with the repository, until it can be filed.</td></tr>
+  </tbody>
+</table>
 <ul>
-  <li>When a session in or about a repository turns up such work, the assistant creates the issue there (after checking for an existing one). If it cannot create it, it tells you what to file.</li>
-  <li>The page references the issue next to the fact it concerns, for example "removal tracked in owner/repo#20", instead of repeating the task.</li>
-  <li>When the assistant finds code work in a page's to-dos, it moves it into an issue and leaves the reference.</li>
+  <li><strong>When in doubt, ask.</strong> Several apps or trackers connected, no clear owning repository, or a to-do that might be personal rather than part of the topic: ask the user where it goes. If the answer is a standing preference, write it into this section.</li>
+  <li>When the assistant finds to-dos on a page that now have a better home (a to-do app got connected, a repository is known), it moves them there and leaves the reference.</li>
 </ul>
 
 <h2>Sources layout</h2>
@@ -111,7 +116,7 @@
 <p>Trigger: the user says a finding from a working session (debugging, a migration, a setup in a repository) belongs in the wiki.</p>
 <ol>
   <li>Search for existing pages first, then write or extend concept and entity pages with what was learned: symptoms, cause, fix, how to recognise it next time, the decisions and their reasons.</li>
-  <li>What is still to do on code goes into issues in the owning repositories before the pages are written; the pages reference the issue numbers. Other to-dos go in the page's <em>To do</em> section.</li>
+  <li>What is still to do on code goes into issues in the owning repositories before the pages are written; the pages reference the issue numbers. Other to-dos go to the connected to-do app or the page's <em>To do</em> section (see <em>To-dos, and work on code</em>).</li>
   <li>Log it with the action word <strong>adopt</strong>; list the pages, and the issues created.</li>
 </ol>
 
@@ -130,7 +135,7 @@
   <li><em>Stubs</em>: pages with <code>#wikiStatus=stub</code>. Write the ones the existing summaries already support; list the rest as reading gaps.</li>
   <li><em>To review</em>: drafts and pages with no status. Give the user the count and the oldest few; do not set <code>reviewed</code> yourself.</li>
   <li>Read each hub and check for contradictions between pages, stale claims, concepts mentioned without a page, and missing cross-links. Fix the mechanical ones, report the rest.</li>
-  <li>To-dos: list the open ones per hub for the user, remove the ones that are done, and move work on code into an issue in the owning repository, leaving the reference.</li>
+  <li>To-dos: list the open ones per hub for the user, remove the ones that are done, and move any that now have a better home (a connected to-do app, a reachable issue tracker) there, leaving the reference.</li>
   <li>Check colours: a <code>#wiki</code> page without a template and without <code>#color</code> gets the colour of its <code>#wikiType</code>.</li>
   <li>Stale claims under <em>Locks</em>: delete them.</li>
   <li>Log it: each fix, each issue created, and each open item for the user.</li>
