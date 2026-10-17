@@ -61,7 +61,10 @@ If more than one Trilium Notes instance is connected this session, resolve which
 
 Offer the user two ways to create the structure. Both are idempotent and safe to re-run.
 
-- **Script (preferred when you have a shell and the ETAPI is reachable from this machine):**
+- **Through the MCP tools** (the default: works on claude.ai and in Claude Code, and needs no
+  credentials beyond the MCP connection): see below.
+- **Script** (faster, but only when the user already has an ETAPI token and Trilium's ETAPI is
+  reachable from this machine; the MCP connection's OAuth sign-in does not cover it):
   `python3 <this skill's folder>/setup.py --url <trilium-url> --token <etapi-token>` creates the
   `LLM Wiki` root with `Schema`, `Locks`, `Graph` and `Review graph` (note maps), `Wiki`, `Sources` (plus the current year folder), `Templates` (4) and `Views` (7) under
   `root` (`--parent <noteId>` to put it elsewhere, `--dry-run` to preview). The schema text is
@@ -69,7 +72,7 @@ Offer the user two ways to create the structure. Both are idempotent and safe to
   That **replaces the whole note**, including conventions the user added to their schema: only use
   it when the user asks, and on a customised schema merge the new default sections in by hand
   instead.
-- **Through the MCP tools** (claude.ai, the Claude apps, no shell): read `setup.py`'s declarations
+- **How the MCP route works:** read `setup.py`'s declarations
   (`TEMPLATES`, `VIEWS`, the labels on each part) and create the same notes with `createNote`
   and `postAttribute`, then put `schema.html` into the Schema note with `putNoteContentById`.
   Saved searches are `createNote` with type `search` plus a `searchString` label. Note maps are

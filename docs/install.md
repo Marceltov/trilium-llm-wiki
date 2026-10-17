@@ -2,7 +2,7 @@
 
 ## 1. Deploy the Trilium Notes MCP server
 
-The plugin talks to Trilium Notes through a running [Trilium Notes MCP server](https://trilium-mcp.marceltov.de/). Set it up with its [quick start](https://trilium-mcp.marceltov.de/getting-started/), and create an ETAPI token under *Options → ETAPI* in Trilium Notes.
+The plugin talks to Trilium Notes through a running [Trilium Notes MCP server](https://trilium-mcp.marceltov.de/). Set it up with its [quick start](https://trilium-mcp.marceltov.de/getting-started/) and enable OAuth on it (`MCP_BASE_URL` and `MCP_OAUTH_SECRET`), so Claude signs in with your Trilium Notes password and you don't need an ETAPI token.
 
 ## 2. Install the plugin
 
@@ -21,7 +21,9 @@ The plugin talks to Trilium Notes through a running [Trilium Notes MCP server](h
 
 ## 3. Connect your Trilium Notes instance (Claude Code)
 
-Start a new session. If no Trilium Notes instance is configured, the plugin's `SessionStart` hook notices and Claude offers, once, to run the `trilium-manage-instances` skill. It asks for the MCP server URL and your ETAPI token and registers the instance as `trilium` with `claude mcp add`, scoped to your user. Restart Claude Code afterwards; a new server only connects on the next launch.
+Start a new session. If no Trilium Notes instance is configured, the plugin's `SessionStart` hook notices and Claude offers, once, to run the `trilium-manage-instances` skill. It asks for the MCP server URL and registers the instance as `trilium` with `claude mcp add`, scoped to your user. Restart Claude Code, run `/mcp`, pick `trilium` and choose **Authenticate**: a browser opens and you sign in with your Trilium Notes password.
+
+If your MCP server has no OAuth, the skill asks for an ETAPI token (*Options → ETAPI* in Trilium Notes) instead and sends it as a header.
 
 Already using the [Trilium Notes plugin](https://trilium-plugin.marceltov.de/)? Then the connection exists and nothing needs doing: both plugins use the same `trilium` server.
 
