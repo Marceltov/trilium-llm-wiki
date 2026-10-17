@@ -37,4 +37,4 @@ Say that a finding from a work session belongs in the wiki: a debugging result, 
 
 ## To-dos, and work on code
 
-Pages may carry to-dos in a *To do* checklist: things to look up, try, buy or decide. Work on code is different: anything to build, fix or change in a repository goes into that repository's issue tracker, and the page links the issue next to the fact it concerns.
+Pages may carry to-dos in a *To do* checklist: things to look up, try, buy or decide. If a to-do app is connected through MCP (for example Todoist), they can go there instead, with the page naming the task. Work on code is different: anything to build, fix or change in a repository goes into that repository's issue tracker, and the page links the issue next to the fact it concerns.
