@@ -41,7 +41,8 @@ If more than one Trilium Notes instance is connected this session, resolve which
    | File a loose source | a note directly under *Sources* → move it into `Sources/<year>` (`#wikiSourceGroup=<year>`, create if missing): `postBranch` with the year folder as `parentNoteId`, then `deleteBranchById` on the old branch (the note keeps its noteId, links and attributes) |
    | Read a source | `getNoteContent`, `getNoteAttachments` + `getAttachmentContent` |
    | Collect a link-only source | raw fetch (`curl` from a shell; without one, the web-fetch tool and `#fetchedVia=summary`) → `createNote` *Fetched copy* under the link note → `postAttribute` `sourceUrl`, `fetchedOn`, `fetchedVia`, `aiAssisted` |
-   | Find existing pages | `searchNotes("#wiki #wikiTopic=<slug>")`, `searchNotes("#wiki <title words>")` |
+   | Find existing pages | `recall("<topic or title words>")` first when the `recall` tool is available (a few hundred tokens, finds paraphrases and German/English); then `searchNotes("#wiki #wikiTopic=<slug>")`, `searchNotes("#wiki <title words>")` to be sure nothing is duplicated |
+   | Answer a question (query) | `recall("<the question>")` → read the hit pages with `getNoteContent`; without the tool, start at the hub as the schema says |
    | Create a page | `createNote` (type `text`, under the hub) then `postAttribute` relation `template` → template id, then the promoted labels (`wikiTopic`, `wikiStatus`, `aiAssisted`) and, for summaries, relation `wikiSource` → the raw note. Same mechanics as `trilium-create-note-from-template`. |
    | Write / extend a page | `getNoteContent` → edit the HTML → `putNoteContentById`. Never replace a page you did not read first. |
    | Link pages | inline `<a class="reference-link" href="#root/<noteId>">Title</a>`; typed edges via `postAttribute` relation `relatesTo` |
@@ -83,6 +84,12 @@ After bootstrapping, point the user at the schema note and suggest the first ing
 web clip or article under *Sources* and say "ingest".
 
 ## Notes
+
+- **Recall.** When the `recall` tool (MCP server `wiki-recall`, see `trilium-recall-setup`) is
+  available, call it on your own before homelab or infrastructure work, on unfamiliar errors, hosts
+  or services, and before decisions the wiki may already have made. In Claude Code a prompt hook
+  may already have added `Wiki recall …` hits to the context; read those pages instead of searching
+  again.
 
 - `getInboxNote` is Trilium Notes' general inbox (often the day note). Clips the user wants in the
   wiki should be moved under *Sources/<year>* (`postBranch` under the
