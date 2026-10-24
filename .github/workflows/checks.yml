@@ -17,6 +17,7 @@ jobs:
       - run: scripts/sync-shared.sh --check
       - run: bash scripts/test-check-trilium-credentials.sh
       - run: python3 -I tests/test_setup.py
+      - run: scripts/check-version.sh
 
   recall-engine:
     runs-on: ubuntu-latest
