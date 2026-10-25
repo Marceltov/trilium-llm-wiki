@@ -9,6 +9,7 @@ copyright: Copyright &copy; 2026 Marcel Bruckner. Licensed under <a href="https:
 # Planning notes are local-only.
 exclude_docs: |
   superpowers/
+  adr/
 
 nav:
   - Home: index.md
@@ -18,6 +19,7 @@ nav:
   - Graph and review: graph-and-review.md
   - Write lock: write-lock.md
   - Customise your schema: customise.md
+  - Recall engine: recall.md
 
 theme:
   name: material

@@ -16,4 +16,19 @@ jobs:
       - uses: actions/checkout@v4
       - run: scripts/sync-shared.sh --check
       - run: bash scripts/test-check-trilium-credentials.sh
+      - run: bash scripts/test-recall-hook.sh
       - run: python3 -I tests/test_setup.py
+      - run: scripts/check-version.sh
+
+  recall-engine:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: recall-engine
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --frozen
+      - run: uv run pytest -q app/tests --ignore=app/tests/live
+      # Live tests and the fixture eval against the disposable stack.
+      - run: ./run-tests.sh -q

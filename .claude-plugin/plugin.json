@@ -1,7 +1,7 @@
 {
   "name": "trilium-llm-wiki",
-  "version": "0.1.3",
-  "description": "Build and maintain an LLM wiki in Trilium Notes after Karpathy's pattern: you collect sources, Claude writes interlinked summary, concept, entity and hub pages, answers from them and lints them. Includes its own Trilium Notes MCP connection setup.",
+  "version": "0.2.0",
+  "description": "Build and maintain an LLM wiki in Trilium Notes after Karpathy's pattern: you collect sources, Claude writes interlinked summary, concept, entity and hub pages, answers from them and lints them. Includes its own Trilium Notes MCP connection setup. Optional recall engine: a container plus prompt hook so Claude finds wiki knowledge on its own.",
   "author": {
     "name": "Marcel Bruckner"
   },
