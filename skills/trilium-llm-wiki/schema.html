@@ -121,8 +121,9 @@
 </ol>
 
 <h2>Workflow: query</h2>
+<p>Looking something up needs neither the write lock nor this schema in full; only a write does.</p>
 <ol>
-  <li>Search <code>#wiki</code> by topic and keywords; read the hub first, then drill into the pages it links.</li>
+  <li>Search with the recall tool when it is connected (in Claude Code its passages may already be in the context); otherwise one <code>#wiki</code> keyword search. Read the one to three pages it points at, from Trilium: a hit is a pointer, not the answer. Follow a link only when the page points at the one that holds the answer. Read a hub and walk its links only when searching found nothing.</li>
   <li>Answer with links to the pages and summaries the answer rests on. Say when the wiki has nothing on the question.</li>
   <li>If the answer required synthesis across several pages, offer to file it as a new <strong>concept</strong> page (status <code>draft</code>) so the exploration compounds. If filed, link it from the hub and log it.</li>
 </ol>
