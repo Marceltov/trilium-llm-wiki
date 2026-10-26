@@ -1,6 +1,5 @@
 #!/bin/bash
-# On a v* tag, the tag must equal .claude-plugin/plugin.json's version: the
-# recall-engine image and the plugin are versioned together.
+# On a v* tag, the tag must equal .claude-plugin/plugin.json's version.
 set -euo pipefail
 
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
