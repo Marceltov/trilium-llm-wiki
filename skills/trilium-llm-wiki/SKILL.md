@@ -39,7 +39,7 @@ wiki outgrows its index: links are the human's browsing and the lint pass, not t
 page.
 
 1. **Recall.** In Claude Code a prompt hook may already have added `Wiki recall …` passages to
-   the context; use those. Otherwise call `recall("<the question>")` (MCP server `wiki-recall`,
+   the context; use those. Otherwise call `recall("<the question>")` (MCP server `trilium-recall`,
    from the [trilium-recall](https://trilium-recall.marceltov.de/) plugin). Call it on your own before homelab or infrastructure work, on
    unfamiliar errors, hosts or services, and before decisions the wiki may already have made.
 2. **Read the pages it points at** (one to three) with `get_note_content`. A hit is a pointer, not
