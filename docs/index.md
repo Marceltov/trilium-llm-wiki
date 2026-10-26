@@ -18,9 +18,9 @@ hide:
 /plugin install trilium-llm-wiki
 ```
 
-!!! warning "Needs a running Trilium Notes MCP server"
+!!! warning "Needs Trilium Notes' MCP server"
 
-    This plugin is only the client half. You need the [Trilium Notes MCP server](https://trilium-mcp.marceltov.de/) deployed next to your Trilium Notes instance first (see its [quick start](https://trilium-mcp.marceltov.de/getting-started/)).
+    This plugin is only the client half. It uses the MCP server built into Trilium Notes 0.106+ (*Options → AI / LLM → MCP server*), connected with an ETAPI token or, to sign in with your Trilium Notes password instead, through [trilium-mcp-proxy](https://github.com/Marceltov/trilium-mcp-proxy). See [Install and connect](install.md).
 
 ## The idea
 
@@ -36,6 +36,6 @@ Trilium Notes already has the pieces other setups build by hand: labels instead 
 - **Safe with several sessions.** A write lock stops two Claude sessions from overwriting each other's edits. See [Write lock](write-lock.md).
 - **Your rules.** The schema is a note you edit. The plugin never overwrites it unless you ask. See [Customise your schema](customise.md).
 
-## LLM wiki or general note skills?
+## LLM wiki or general note work?
 
-This plugin is for building an LLM wiki. If you want Claude to work with the notes you already have (search, create, move, tag, journal, export), install the [Trilium Notes plugin](https://trilium-plugin.marceltov.de/) instead, or next to this one. Both share the same MCP connection.
+This plugin is for building an LLM wiki. For working with the notes you already have (search, create, move, tag), Trilium's MCP tools are enough on their own: connect them as in [Install and connect](install.md) and ask Claude directly. Both use the same MCP connection.

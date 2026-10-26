@@ -19,7 +19,7 @@ Creates (idempotently, found again by label on re-runs):
     └── Views                     #llmWikiPart=views
         └── saved searches (type=search, #searchString=...)
 
-Standard library only. Talks to Trilium's ETAPI directly, not to trilium-mcp,
+Standard library only. Talks to Trilium's ETAPI directly, not to the MCP server,
 so it needs network access to Trilium itself.
 
     ./setup.py --url http://localhost:8080 --token "$TRILIUM_ETAPI_TOKEN"

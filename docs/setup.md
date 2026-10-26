@@ -20,7 +20,7 @@ LLM Wiki                  #llmWiki
 
 ## The default: ask Claude
 
-Ask Claude to "set up the LLM wiki". It reads the declarations in `setup.py` and creates the notes through the MCP tools, so it works in Claude Code and on claude.ai alike and needs nothing beyond the MCP connection you already signed in to.
+Ask Claude to "set up the LLM wiki". It reads the declarations in `setup.py` and creates the notes through the MCP tools, so it works in Claude Code and on claude.ai alike and needs nothing beyond the MCP connection you already signed in to. Trilium's MCP tools can't create note maps, so this route leaves out `Graph` and `Review graph` and tells you how to add them in Trilium by hand; the script below creates them.
 
 ## Faster: the script (needs an ETAPI token)
 
