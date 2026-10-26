@@ -19,7 +19,7 @@ A [Claude Code](https://code.claude.com) plugin that builds and maintains an LLM
 
 **Full documentation: [trilium-llm-wiki.marceltov.de](https://trilium-llm-wiki.marceltov.de/)**
 
-Optional: the [recall engine](https://trilium-llm-wiki.marceltov.de/recall/) (`recall-engine/`, image `ghcr.io/marceltov/trilium-llm-wiki-recall`) lets Claude find what the wiki knows on its own, through a prompt hook and an MCP `recall` tool.
+Optional: [trilium-recall](https://trilium-recall.marceltov.de/) lets Claude find what the wiki (and the rest of your notes) knows on its own, through a prompt hook and an MCP `recall` tool. It used to live in this repo, up to 0.4.x.
 
 ## Install
 

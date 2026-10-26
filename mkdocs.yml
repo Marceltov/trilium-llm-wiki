@@ -19,7 +19,7 @@ nav:
   - Graph and review: graph-and-review.md
   - Write lock: write-lock.md
   - Customise your schema: customise.md
-  - Recall engine: recall.md
+  - Recall: recall.md
 
 theme:
   name: material
