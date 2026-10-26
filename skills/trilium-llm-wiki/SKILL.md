@@ -18,13 +18,18 @@ it and which tools implement each step. Conventions the user changes in the sche
 
 If more than one Trilium Notes instance is connected this session, resolve which one to use first (the wiki lives in one of them) — see [Working with multiple instances](reference/shared-rules.md#working-with-multiple-instances).
 
-Tool names below are trilium-mcp's. Trilium's built-in MCP server (`/mcp`, also behind
-trilium-mcp-proxy) names them `search_notes`, `get_note`, `get_note_content`, `create_note`,
-`set_note_content` (or `edit_note_content` / `append_to_note` for partial writes),
-`set_attribute`, `delete_attribute`, `clone_note` (= `postBranch`), `move_note` (replaces
-`postBranch` + `deleteBranchById`), `rename_note`, `delete_note`, `get_attachment` and
-`get_attachment_content`; it has no day-note tool, so find the day note with
-`search_notes('#dateNote="<YYYY-MM-DD>"')` (quoted: the value has hyphens).
+The tools are those of Trilium Notes' built-in MCP server (0.106+, at `/mcp`, connected directly
+or through [trilium-mcp-proxy](https://github.com/Marceltov/trilium-mcp-proxy)). Text notes go in
+and come out as **Markdown**; Trilium stores them as HTML. Internal links are inline HTML
+(`<a class="reference-link" href="#root/<noteId>">Title</a>`) inside the Markdown and survive the
+round trip. Three things the built-in tools don't do:
+
+- No day-note tool: find today's note with `search_notes('#dateNote="<YYYY-MM-DD>"')` (quoted:
+  the value has hyphens).
+- `set_attribute` **replaces** an existing attribute of the same type and name. It can't add a
+  second `wikiTopic` or `relatesTo`: give a page its main topic and clone it into the other hub,
+  and link related pages inline (Trilium turns inline links into `internalLink` relations).
+- `create_note` can't make note maps (see *Bootstrap*).
 
 ## Look something up
 
@@ -37,11 +42,11 @@ page.
    the context; use those. Otherwise call `recall("<the question>")` (MCP server `wiki-recall`,
    see `trilium-recall-setup`). Call it on your own before homelab or infrastructure work, on
    unfamiliar errors, hosts or services, and before decisions the wiki may already have made.
-2. **Read the pages it points at** (one to three) with `getNoteContent`. A hit is a pointer, not
+2. **Read the pages it points at** (one to three) with `get_note_content`. A hit is a pointer, not
    the answer: the index can lag behind Trilium by a minute, so rely on the page, not the
    passage. If a page links to the one that holds the answer, follow that one link.
 3. **Answer** with links to the pages. No recall tool, or no hit: one keyword search
-   (`searchNotes("#wiki <keywords>")`); still nothing: say the wiki has nothing on it. Read a
+   (`search_notes("#wiki <keywords>")`); still nothing: say the wiki has nothing on it. Read a
    topic's hub and walk its links only as a last resort.
 4. If the answer took synthesis across several pages, offer to file it as a concept page. That
    is a write: continue with *Write to the wiki*.
@@ -50,37 +55,37 @@ page.
 
 Ingest, adopt, lint, filing an answer, and any other change.
 
-1. **Load the schema.** `searchNotes("#llmWikiSchema", fastSearch=true)`. Exactly one hit is
-   expected. `getNoteContent` it and follow it. If there is no hit, go to *Bootstrap* below.
+1. **Load the schema.** `search_notes("#llmWikiSchema", fastSearch=true)`. Exactly one hit is
+   expected. `get_note_content` it and follow it. If there is no hit, go to *Bootstrap* below.
 
-2. **Resolve the structure once per session.** `searchNotes("#llmWikiPart")` returns the six
-   parts (`schema`, `locks`, `wiki`, `sources`, `templates`, `views`); `searchNotes("#llmWikiTemplate")`
+2. **Resolve the structure once per session.** `search_notes("#llmWikiPart")` returns the six
+   parts (`schema`, `locks`, `wiki`, `sources`, `templates`, `views`); `search_notes("#llmWikiTemplate")`
    returns the four templates. Keep the noteIds; only notes that *own* the marker label count
    (instances inherit a template's labels, so filter on `attribute.noteId == note.noteId`).
 
 3. **Take the write lock before the first write**, and release it when done (schema section
-   *Write lock*). Other sessions may be writing to the same wiki, and an ETAPI overwrite leaves no
-   revision. Reading needs no lock.
+   *Write lock*). Other sessions may be writing to the same wiki, and an overwrite through the
+   tools leaves no revision. Reading needs no lock.
 
 4. **Pick the workflow** from what the user asked. Each is specified in the schema; the tool
    mapping is:
 
    | Schema step | Tools |
    |---|---|
-   | Write lock | claim: `createNote` under *Locks* (`<session>: <task>`); check: `searchNotes("note.parents.labels.llmWikiPart = locks note.utcDateModified >= NOW-1800 orderBy note.utcDateCreated")`, yours must be first; keep alive: `putNoteContentById` on the claim; release: `deleteNoteById` |
-   | Pending sources | run the view's query: `getNoteById(view)` → `searchString` label → `searchNotes(query)` |
-   | File a loose source | a note directly under *Sources* → move it into `Sources/<year>` (`#wikiSourceGroup=<year>`, create if missing): `postBranch` with the year folder as `parentNoteId`, then `deleteBranchById` on the old branch (the note keeps its noteId, links and attributes) |
-   | Read a source | `getNoteContent`, `getNoteAttachments` + `getAttachmentContent` |
-   | Collect a link-only source | raw fetch (`curl` from a shell; without one, the web-fetch tool and `#fetchedVia=summary`) → `createNote` *Fetched copy* under the link note → `postAttribute` `sourceUrl`, `fetchedOn`, `fetchedVia`, `aiAssisted` |
-   | Find existing pages | `recall("<topic or title words>")` first when the `recall` tool is available (a few hundred tokens, finds paraphrases and German/English); then `searchNotes("#wiki #wikiTopic=<slug>")`, `searchNotes("#wiki <title words>")` to be sure nothing is duplicated |
-   | Create a page | `createNote` (type `text`, under the hub) then `postAttribute` relation `template` → template id, then the promoted labels (`wikiTopic`, `wikiStatus`, `aiAssisted`) and, for summaries, relation `wikiSource` → the raw note. Same mechanics as `trilium-create-note-from-template`. |
-   | Write / extend a page | `getNoteContent` → edit the HTML → `putNoteContentById`. Never replace a page you did not read first. |
-   | Link pages | inline `<a class="reference-link" href="#root/<noteId>">Title</a>`; typed edges via `postAttribute` relation `relatesTo` |
-   | Clone into a second topic | `postBranch` with the other hub as `parentNoteId` |
-   | Log | `getDayNote(today)` → `getNoteContent` → add an `<li>` to the list under `<h2>Wiki</h2>` (create the heading on the first action of the day) → `putNoteContentById`, reading the day note right before writing it (see the schema's *Log format*) |
+   | Write lock | claim: `create_note` under *Locks* (`<session>: <task>`); check: `search_notes("note.parents.labels.llmWikiPart = locks note.utcDateModified >= NOW-1800 orderBy note.utcDateCreated")`, yours must be first; keep alive: `set_note_content` on the claim; release: `delete_note` |
+   | Pending sources | run the view's query: `get_note(view)` → `searchString` label → `search_notes(query)` |
+   | File a loose source | a note directly under *Sources* → `move_note` into `Sources/<year>` (`#wikiSourceGroup=<year>`, create if missing); the note keeps its noteId, links and attributes |
+   | Read a source | `get_note_content`; attachments are listed by `get_note`, read them with `get_attachment_content` |
+   | Collect a link-only source | raw fetch (`curl` from a shell; without one, the web-fetch tool and `#fetchedVia=summary`) → `create_note` *Fetched copy* under the link note → `set_attribute` `sourceUrl`, `fetchedOn`, `fetchedVia`, `aiAssisted` |
+   | Find existing pages | `recall("<topic or title words>")` first when the `recall` tool is available (a few hundred tokens, finds paraphrases and German/English); then `search_notes("#wiki #wikiTopic=<slug>")`, `search_notes("#wiki <title words>")` to be sure nothing is duplicated |
+   | Create a page | `create_note` (type `text`, under the hub) then `set_attribute` relation `template` → template id, then the promoted labels (`wikiTopic`, `wikiStatus`, `aiAssisted`) and, for summaries, relation `wikiSource` → the raw note |
+   | Write / extend a page | `get_note_content` → edit the Markdown → `set_note_content` with the whole page (`edit_note_content` doesn't work on text notes). Never replace a page you did not read first. |
+   | Link pages | inline `<a class="reference-link" href="#root/<noteId>">Title</a>`; one typed edge via `set_attribute` relation `relatesTo` |
+   | Clone into a second topic | `clone_note` with the other hub as `parentNoteId` |
+   | Log | find the day note (`search_notes('#dateNote="<today>"')`; if there is none yet, create it under the month note `#monthNote="<YYYY-MM>"`, titled like its siblings, with label `dateNote=<today>`) → `get_note_content` → add a list item under `## Wiki` (create the heading on the first action of the day) → `set_note_content`, reading the day note right before writing it (see the schema's *Log format*) |
 
 5. **Respect the boundaries in the schema:** never edit anything under *Sources* (it is
-   `#readOnly`; ETAPI would still allow it, so this is on you) beyond adding the *Fetched copy* of a
+   `#readOnly`; the MCP tools would still allow it, so this is on you) beyond adding the *Fetched copy* of a
    link-only source, never set `#wikiStatus=reviewed`
    yourself, never create a page without first searching for an existing one, and never leave
    a new page unlinked from its hub.
@@ -104,21 +109,21 @@ Offer the user two ways to create the structure. Both are idempotent and safe to
   it when the user asks, and on a customised schema merge the new default sections in by hand
   instead.
 - **How the MCP route works:** read `setup.py`'s declarations
-  (`TEMPLATES`, `VIEWS`, the labels on each part) and create the same notes with `createNote`
-  and `postAttribute`, then put `schema.html` into the Schema note with `putNoteContentById`.
-  Saved searches are `createNote` with type `search` plus a `searchString` label. Note maps are
-  `createNote` with type `text`, then `patchNoteById` to type `noteMap`, plus `mapType` and
-  `mapRootNoteId` labels.
+  (`TEMPLATES`, `VIEWS`, the labels on each part) and create the same notes with `create_note`
+  and `set_attribute`, then put the text of `schema.html` into the Schema note with
+  `set_note_content` (as Markdown). Saved searches are `create_note` with type `search` plus a
+  `searchString` label. The built-in tools can't create note maps: leave `Graph` and
+  `Review graph` out and tell the user to add them in Trilium (*new note → Note Map*, labels
+  `mapType` and `mapRootNoteId` as in `setup.py`), or run the script.
 
 After bootstrapping, point the user at the schema note and suggest the first ingest: drop a
 web clip or article under *Sources* and say "ingest".
 
 ## Notes
 
-- `getInboxNote` is Trilium Notes' general inbox (often the day note). Clips the user wants in the
-  wiki should be moved under *Sources/<year>* (`postBranch` under the
-  year folder, then `deleteBranchById` on the old branch), otherwise they inherit neither `#readOnly` nor `#wikiSource` and never show
-  up as pending.
+- Clips that land elsewhere (Trilium Notes' inbox, often the day note) and belong in the wiki
+  must be moved under *Sources/<year>* with `move_note`, otherwise they inherit neither
+  `#readOnly` nor `#wikiSource` and never show up as pending.
 - Search values with hyphens or spaces must be quoted: `#wikiTopic="machine-learning"`.
 - A `!=` test on an inherited label (`#wikiType != hub`) only works as the **first** clause of
   a query (Trilium Notes 0.106). Prefer positive filters (`#wikiType=concept`) where you can.

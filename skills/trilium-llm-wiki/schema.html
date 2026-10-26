@@ -53,7 +53,7 @@
 <p>A source that is little more than a URL (a bare link, an app's share text) cannot be summarised now or checked later. On ingest the assistant collects it:</p>
 <ol>
   <li>Fetch the page, preferably raw (<code>curl</code> or similar), and extract the article body from the HTML. Drop navigation, ads, cookie banners and related-article lists; do not reword, shorten or summarise the article. Keep images as links to their original URLs.</li>
-  <li>Create one child note under the link note, titled <em>Fetched copy</em>, with the article as HTML and the labels <code>#sourceUrl=&lt;url&gt;</code>, <code>#fetchedOn=&lt;YYYY-MM-DD&gt;</code>, <code>#fetchedVia=raw</code> and <code>#aiAssisted</code>. The link note becomes the source folder and stays untouched; the summary's <code>~wikiSource</code> still points at it.</li>
+  <li>Create one child note under the link note, titled <em>Fetched copy</em>, with the article body and the labels <code>#sourceUrl=&lt;url&gt;</code>, <code>#fetchedOn=&lt;YYYY-MM-DD&gt;</code>, <code>#fetchedVia=raw</code> and <code>#aiAssisted</code>. The link note becomes the source folder and stays untouched; the summary's <code>~wikiSource</code> still points at it.</li>
   <li>If only a processed fetch is available (a tool that returns a model's rendering of the page rather than the page), use it, set <code>#fetchedVia=summary</code>, and tell the user the copy is not the original wording.</li>
   <li>If the fetch fails or returns a paywall, login page or teaser, stop: tell the user, leave the source pending, and do not summarise from the title or URL.</li>
   <li>If the link note's title is share text rather than the article's title, suggest a better one; the user renames it.</li>
@@ -91,7 +91,7 @@
 
 <h2>Writing rules</h2>
 <ul>
-  <li>Bodies are HTML (Trilium text notes). Use headings, short paragraphs, lists and tables. No raw markdown.</li>
+  <li>Bodies are Trilium text notes: write them as Markdown through the MCP tools, which store them as formatted text. Use headings, short paragraphs, lists and tables. Never leave Markdown syntax showing as literal text in a page.</li>
   <li>Write for your future self: state the claim, then the evidence, then what is still unknown. Prefer concrete numbers and dates over adjectives.</li>
   <li>Record disagreements. When a new source contradicts an existing page, do not silently overwrite: add a "Contradictions" section naming both sources and the dates. If the contradiction means a document in a repository is wrong, the correction is an issue; the page names it.</li>
   <li>Keep the raw source untouched. Quote it; do not reformat it.</li>
