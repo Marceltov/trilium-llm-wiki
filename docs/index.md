@@ -36,6 +36,6 @@ Trilium Notes already has the pieces other setups build by hand: labels instead 
 - **Safe with several sessions.** A write lock stops two Claude sessions from overwriting each other's edits. See [Write lock](write-lock.md).
 - **Your rules.** The schema is a note you edit. The plugin never overwrites it unless you ask. See [Customise your schema](customise.md).
 
-## LLM wiki or general note work?
+## LLM wiki or general note skills?
 
-This plugin is for building an LLM wiki. For working with the notes you already have (search, create, move, tag), Trilium's MCP tools are enough on their own: connect them as in [Install and connect](install.md) and ask Claude directly. Both use the same MCP connection.
+This plugin is for building an LLM wiki. If you want Claude to work with the notes you already have (search, create, move, tag, journal, export), install the [Trilium Notes plugin](https://trilium-plugin.marceltov.de/) instead, or next to this one. Both share the same MCP connection.

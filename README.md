@@ -30,7 +30,7 @@ Optional: the [recall engine](https://trilium-llm-wiki.marceltov.de/recall/) (`r
 
 Then start a new session: Claude offers to connect your Trilium Notes instance if none is configured. Ask it to "set up the LLM wiki" to create the structure.
 
-Want Claude to work with your existing notes rather than build a wiki? Trilium's MCP tools do that on their own, over the same connection.
+Want Claude to work with your existing notes rather than build a wiki? That's the [Trilium Notes plugin](https://github.com/Marceltov/trilium-plugin). Both can be installed together and share one connection.
 
 ## What's inside
 
@@ -50,7 +50,7 @@ bash scripts/test-check-trilium-credentials.sh
 python3 -I tests/test_setup.py
 ```
 
-`trilium-manage-instances`, `shared/rules.md` and the credential check started as copies of the ones in the archived [trilium-plugin](https://github.com/Marceltov/trilium-plugin) and are maintained here now.
+`trilium-manage-instances`, `shared/rules.md` and the credential check are copies of the ones in [trilium-plugin](https://github.com/Marceltov/trilium-plugin). Keep them in step when one changes.
 
 ## License
 
