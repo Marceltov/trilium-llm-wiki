@@ -26,9 +26,9 @@ The plugin talks to the MCP server built into Trilium Notes 0.106+. Turn it on u
 
 Start a new session. If no Trilium Notes instance is configured, the plugin's `SessionStart` hook notices and Claude offers, once, to run the `trilium-manage-instances` skill. It asks how you connect and for the URL, and registers the instance as `trilium` with `claude mcp add`, scoped to your user. Through the proxy: restart Claude Code, run `/mcp`, pick `trilium` and choose **Authenticate**; a browser opens on the proxy's login page and you sign in with your Trilium Notes password. Directly: the skill asks for the ETAPI token and sends it as an `Authorization: Bearer` header.
 
-Already connected a `trilium` server some other way? Then nothing needs doing: the plugin uses it.
+Already using the [Trilium Notes plugin](https://trilium-plugin.marceltov.de/), or connected a `trilium` server some other way? Then nothing needs doing: both plugins use the same `trilium` server.
 
-Several instances work the same way: each one after the first gets a label and is registered as `trilium-<label>` (for example `trilium-work`). The wiki lives in one of them, and Claude asks which when it isn't clear.
+Several instances work the same way as in the Trilium Notes plugin: each one after the first gets a label and is registered as `trilium-<label>` (for example `trilium-work`); see its [Multiple instances](https://trilium-plugin.marceltov.de/multiple-instances/) page. The wiki lives in one of them, and Claude asks which when it isn't clear.
 
 On claude.ai the setup hook does nothing; the connector is the connection.
 
