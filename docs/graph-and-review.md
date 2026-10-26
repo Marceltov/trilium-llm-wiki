@@ -4,6 +4,8 @@
 
 *Graph* is a Trilium note map (type *Note Map*, `#mapType=link`) rooted at *Wiki*. It works like Obsidian's graph view: every page is a node, every link or relation between pages is an edge. Links are made from the pages' text, so the graph grows as Claude writes.
 
+![The wiki's graph in Trilium Notes: hub pages (violet) such as Homelab, Trilium and Hetzner, each surrounded by its concept (green), entity (orange) and summary (blue) pages, linked to each other and to the Wiki root](assets/graph.png){ width="560" }
+
 Nodes are coloured by page type through a `#color` label on each template:
 
 | Type | Colour |

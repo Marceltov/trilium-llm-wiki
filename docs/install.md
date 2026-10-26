@@ -5,7 +5,7 @@
 The plugin talks to the MCP server built into Trilium Notes 0.106+. Turn it on under *Options → AI / LLM → MCP server*; it serves `/mcp` on your Trilium Notes URL. Then pick how Claude signs in:
 
 - **With an ETAPI token:** create one under *Options → ETAPI*. Nothing else to run.
-- **With your Trilium Notes password (recommended):** put [trilium-mcp-proxy](https://github.com/Marceltov/trilium-mcp-proxy) in front of it, on your own server next to Trilium. It adds an OAuth login: you add its URL to any MCP client and log in once, with no token to create or paste. The login page is the proxy's own, so the password only goes from your browser to the proxy and on to your Trilium, never to Claude. Its README has the compose snippet.
+- **With your Trilium Notes password (recommended):** put [trilium-mcp-proxy](https://trilium-mcp-proxy.marceltov.de/) in front of it, on your own server next to Trilium. It adds an OAuth login: you add its URL to any MCP client and log in once, with no token to create or paste. The login page is the proxy's own, so the password only goes from your browser to the proxy and on to your Trilium, never to Claude. Its README has the compose snippet.
 
 ## 2. Install the plugin
 
