@@ -20,13 +20,18 @@ hide:
 
 !!! warning "Needs Trilium Notes' MCP server"
 
-    This plugin is only the client half. It uses the MCP server built into Trilium Notes 0.106+ (*Options → AI / LLM → MCP server*), connected with an ETAPI token or, to sign in with your Trilium Notes password instead, through [trilium-mcp-proxy](https://github.com/Marceltov/trilium-mcp-proxy). See [Install and connect](install.md).
+    This plugin is only the client half. It uses the MCP server built into Trilium Notes 0.106+ (*Options → AI / LLM → MCP server*), connected with an ETAPI token or, to sign in with your Trilium Notes password instead, through [trilium-mcp-proxy](https://trilium-mcp-proxy.marceltov.de/). See [Install and connect](install.md).
 
 ## The idea
 
 The pattern comes from [Andrej Karpathy's "LLM wiki"](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f): people are good at picking what to read and bad at the upkeep a wiki needs, such as cross-references, updating ten pages when one new source arrives, and noticing contradictions. That upkeep is the assistant's job here.
 
 Trilium Notes already has the pieces other setups build by hand: labels instead of frontmatter, links and relations as the graph, a note map to look at it, saved searches as views and the journal day note as a log.
+
+<figure markdown>
+![The wiki's graph in Trilium Notes: hub pages (violet) such as Homelab, Trilium and Hetzner, each surrounded by its concept (green), entity (orange) and summary (blue) pages, linked to each other and to the Wiki root](assets/graph.png){ width="560" }
+<figcaption>A real wiki after a few weeks, as Trilium's note map</figcaption>
+</figure>
 
 ## What you get
 
