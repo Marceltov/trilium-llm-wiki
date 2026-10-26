@@ -25,7 +25,7 @@ Say "ingest" or "process the sources". Claude:
 
 ## Query
 
-Ask the wiki a question ("what does the wiki say about…"). Claude reads the hub first, then the pages it links, and answers with links. If the answer needed synthesis across several pages, it offers to save it as a new concept page.
+Ask the wiki a question ("what does the wiki say about…"). Claude searches with the recall engine when it is connected (otherwise one keyword search), reads the one to three pages it points at, and answers with links. It reads a hub and walks its links only when searching found nothing, and it needs neither the schema nor the write lock just to look something up. If the answer needed synthesis across several pages, it offers to save it as a new concept page.
 
 ## Lint
 

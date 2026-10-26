@@ -5,7 +5,8 @@ description: Maintain an LLM wiki inside Trilium Notes following Karpathy's "LLM
 
 # LLM Wiki in Trilium Notes
 
-The pattern: the user curates **raw sources**, the assistant compiles them into a **wiki** of
+The pattern ([Karpathy's gist](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)):
+the user curates **raw sources**, the assistant compiles them into a **wiki** of
 interlinked pages, and a **schema note** holds the conventions. The maintenance humans give up
 on (cross-references, touching 15 pages per source) is the assistant's job. Trilium Notes supplies the
 pieces Obsidian-based setups build by hand: labels instead of frontmatter, internal links plus
@@ -15,9 +16,39 @@ note as the log.
 **The schema note is the source of truth, not this file.** This skill only tells you how to find
 it and which tools implement each step. Conventions the user changes in the schema win.
 
-## Steps
-
 If more than one Trilium Notes instance is connected this session, resolve which one to use first (the wiki lives in one of them) — see [Working with multiple instances](reference/shared-rules.md#working-with-multiple-instances).
+
+Tool names below are trilium-mcp's. Trilium's built-in MCP server (`/mcp`, also behind
+trilium-mcp-proxy) names them `search_notes`, `get_note`, `get_note_content`, `create_note`,
+`set_note_content` (or `edit_note_content` / `append_to_note` for partial writes),
+`set_attribute`, `delete_attribute`, `clone_note` (= `postBranch`), `move_note` (replaces
+`postBranch` + `deleteBranchById`), `rename_note`, `delete_note`, `get_attachment` and
+`get_attachment_content`; it has no day-note tool, so find the day note with
+`search_notes('#dateNote="<YYYY-MM-DD>"')` (quoted: the value has hyphens).
+
+## Look something up
+
+Answering a question, or checking what the wiki knows in the middle of other work, needs **no
+schema, no structure lookup and no lock**. Searching is what Karpathy's pattern calls for once a
+wiki outgrows its index: links are the human's browsing and the lint pass, not the way to find a
+page.
+
+1. **Recall.** In Claude Code a prompt hook may already have added `Wiki recall …` passages to
+   the context; use those. Otherwise call `recall("<the question>")` (MCP server `wiki-recall`,
+   see `trilium-recall-setup`). Call it on your own before homelab or infrastructure work, on
+   unfamiliar errors, hosts or services, and before decisions the wiki may already have made.
+2. **Read the pages it points at** (one to three) with `getNoteContent`. A hit is a pointer, not
+   the answer: the index can lag behind Trilium by a minute, so rely on the page, not the
+   passage. If a page links to the one that holds the answer, follow that one link.
+3. **Answer** with links to the pages. No recall tool, or no hit: one keyword search
+   (`searchNotes("#wiki <keywords>")`); still nothing: say the wiki has nothing on it. Read a
+   topic's hub and walk its links only as a last resort.
+4. If the answer took synthesis across several pages, offer to file it as a concept page. That
+   is a write: continue with *Write to the wiki*.
+
+## Write to the wiki
+
+Ingest, adopt, lint, filing an answer, and any other change.
 
 1. **Load the schema.** `searchNotes("#llmWikiSchema", fastSearch=true)`. Exactly one hit is
    expected. `getNoteContent` it and follow it. If there is no hit, go to *Bootstrap* below.
@@ -42,7 +73,6 @@ If more than one Trilium Notes instance is connected this session, resolve which
    | Read a source | `getNoteContent`, `getNoteAttachments` + `getAttachmentContent` |
    | Collect a link-only source | raw fetch (`curl` from a shell; without one, the web-fetch tool and `#fetchedVia=summary`) → `createNote` *Fetched copy* under the link note → `postAttribute` `sourceUrl`, `fetchedOn`, `fetchedVia`, `aiAssisted` |
    | Find existing pages | `recall("<topic or title words>")` first when the `recall` tool is available (a few hundred tokens, finds paraphrases and German/English); then `searchNotes("#wiki #wikiTopic=<slug>")`, `searchNotes("#wiki <title words>")` to be sure nothing is duplicated |
-   | Answer a question (query) | `recall("<the question>")` → read the hit pages with `getNoteContent`; without the tool, start at the hub as the schema says |
    | Create a page | `createNote` (type `text`, under the hub) then `postAttribute` relation `template` → template id, then the promoted labels (`wikiTopic`, `wikiStatus`, `aiAssisted`) and, for summaries, relation `wikiSource` → the raw note. Same mechanics as `trilium-create-note-from-template`. |
    | Write / extend a page | `getNoteContent` → edit the HTML → `putNoteContentById`. Never replace a page you did not read first. |
    | Link pages | inline `<a class="reference-link" href="#root/<noteId>">Title</a>`; typed edges via `postAttribute` relation `relatesTo` |
@@ -84,12 +114,6 @@ After bootstrapping, point the user at the schema note and suggest the first ing
 web clip or article under *Sources* and say "ingest".
 
 ## Notes
-
-- **Recall.** When the `recall` tool (MCP server `wiki-recall`, see `trilium-recall-setup`) is
-  available, call it on your own before homelab or infrastructure work, on unfamiliar errors, hosts
-  or services, and before decisions the wiki may already have made. In Claude Code a prompt hook
-  may already have added `Wiki recall …` hits to the context; read those pages instead of searching
-  again.
 
 - `getInboxNote` is Trilium Notes' general inbox (often the day note). Clips the user wants in the
   wiki should be moved under *Sources/<year>* (`postBranch` under the
