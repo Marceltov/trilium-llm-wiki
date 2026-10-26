@@ -24,7 +24,7 @@ trilium-mcp-proxy) names them `search_notes`, `get_note`, `get_note_content`, `c
 `set_attribute`, `delete_attribute`, `clone_note` (= `postBranch`), `move_note` (replaces
 `postBranch` + `deleteBranchById`), `rename_note`, `delete_note`, `get_attachment` and
 `get_attachment_content`; it has no day-note tool, so find the day note with
-`search_notes("#dateNote=<YYYY-MM-DD>")`.
+`search_notes('#dateNote="<YYYY-MM-DD>"')` (quoted: the value has hyphens).
 
 ## Look something up
 
