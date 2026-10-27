@@ -1,0 +1,36 @@
+name: notefeed
+
+# Releases here are made by hand (gh release create), so posting their notes is its own
+# workflow: a published release goes to the notefeed feed for the Trilium projects.
+# Skipped without the secrets (forks); a re-run doesn't post twice, the tag <repo>-vX.Y.Z
+# on the note is what the check looks for. A release made with GITHUB_TOKEN would not
+# start this workflow; the image repos post from their release job instead.
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Post the notes to notefeed
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          TAG: ${{ github.event.release.tag_name }}
+          NOTEFEED_URL: https://notefeed.me
+          NOTEFEED_FEED: ${{ secrets.NOTEFEED_FEED }}
+          NOTEFEED_FEED_PASSWORD: ${{ secrets.NOTEFEED_FEED_PASSWORD }}
+        run: |
+          [ -n "$NOTEFEED_FEED" ] || { echo "No NOTEFEED_FEED secret, not posting"; exit 0; }
+          repo=${GITHUB_REPOSITORY#*/}
+          feed="$NOTEFEED_URL/api/v1/feeds/$NOTEFEED_FEED/notes"
+          posted=$(curl -fsS -H "X-Feed-Password: $NOTEFEED_FEED_PASSWORD" "$feed?tag=$repo-$TAG&limit=1" | jq '.notes | length')
+          [ "$posted" = 0 ] || { echo "$repo $TAG is already on notefeed"; exit 0; }
+          gh release view "$TAG" --json body,url --jq '.body + "\n\n[The release on GitHub](" + .url + ")\n"' > notefeed.md
+          curl -fsS -o /dev/null -H "Content-Type: text/markdown" -H "X-Feed-Password: $NOTEFEED_FEED_PASSWORD" \
+            -H "X-Note-Title: $repo ${TAG#v}" -H "X-Note-Tags: release,$repo,$repo-$TAG" \
+            --data-binary @notefeed.md "$feed"
