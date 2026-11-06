@@ -72,7 +72,7 @@ Ingest, adopt, lint, filing an answer, and any other change.
 
    | Schema step | Tools |
    |---|---|
-   | Write lock | claim: `create_note` under *Locks* (`<session>: <task>`); check: `search_notes("note.parents.labels.llmWikiPart = locks note.utcDateModified >= NOW-1800 orderBy note.utcDateCreated")`, yours must be first; keep alive: `set_note_content` on the claim; release: `delete_note` |
+   | Write lock | claim: `create_note` under *Locks* (`<session>: <task>`); check: `search_notes("note.parents.labels.llmWikiPart = locks note.dateModified >= NOW-1800 orderBy note.utcDateCreated")`, yours must be first; keep alive: `set_note_content` on the claim; release: `delete_note` |
    | Pending sources | run the view's query: `get_note(view)` → `searchString` label → `search_notes(query)` |
    | File a loose source | a note directly under *Sources* → `move_note` into `Sources/<year>` (`#wikiSourceGroup=<year>`, create if missing); the note keeps its noteId, links and attributes |
    | Read a source | `get_note_content`; attachments are listed by `get_note`, read them with `get_attachment_content` |
