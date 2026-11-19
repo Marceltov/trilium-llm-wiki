@@ -19,7 +19,7 @@ it and which tools implement each step. Conventions the user changes in the sche
 If more than one Trilium Notes instance is connected this session, resolve which one to use first (the wiki lives in one of them) — see [Working with multiple instances](reference/shared-rules.md#working-with-multiple-instances).
 
 The tools are those of Trilium Notes' built-in MCP server (0.106+, at `/mcp`, connected directly
-or through [trilium-mcp-proxy](https://github.com/Marceltov/trilium-mcp-proxy)). Text notes go in
+or through [mcp-login-proxy](https://github.com/Marceltov/mcp-login-proxy)). Text notes go in
 and come out as **Markdown**; Trilium stores them as HTML. Internal links are inline HTML
 (`<a class="reference-link" href="#root/<noteId>">Title</a>`) inside the Markdown and survive the
 round trip. Three things the built-in tools don't do:
