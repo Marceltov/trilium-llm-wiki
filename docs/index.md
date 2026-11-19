@@ -20,7 +20,7 @@ hide:
 
 !!! warning "Needs Trilium Notes' MCP server"
 
-    This plugin is only the client half. It uses the MCP server built into Trilium Notes 0.106+ (*Options → AI / LLM → MCP server*), connected with an ETAPI token or, to sign in with your Trilium Notes password instead, through [trilium-mcp-proxy](https://trilium-mcp-proxy.marceltov.de/). See [Install and connect](install.md).
+    This plugin is only the client half. It uses the MCP server built into Trilium Notes 0.106+ (*Options → AI / LLM → MCP server*), connected with an ETAPI token or, to sign in with your Trilium Notes password instead, through [mcp-login-proxy](https://mcp-login-proxy.marceltov.de/). See [Install and connect](install.md).
 
 ## The idea
 
